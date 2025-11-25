@@ -44,7 +44,7 @@ Coolify автоматически соберет Docker-образ и запу�
 1. **Подключите репозиторий в Coolify**
    - Добавьте новый ресурс (Resource) в Coolify
    - Выберите тип "Git Repository"
-   - Укажите URL вашего репозитория: `https://github.com/Baslykden/Evkusa.git`
+   - Укажите URL вашего репозитория: `https://github.com/TaHel-UDev/evkusa`
    - Выберите ветку (обычно `main`)
 
 2. **Настройте переменные окружения**
@@ -72,7 +72,7 @@ Coolify автоматически соберет Docker-образ и запу�
 
 ```bash
 cd /opt
-git clone https://github.com/Baslykden/Evkusa.git
+git clone https://github.com/TaHel-UDev/evkusa
 cd Evkusa
 ```
 

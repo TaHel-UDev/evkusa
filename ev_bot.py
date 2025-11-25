@@ -174,7 +174,7 @@ async def maybe_run_generation(update: Update, context: ContextTypes.DEFAULT_TYP
 
     await context.bot.send_message(
         chat_id=chat_id,
-        text="✨ Презентация готова!\n\n<i>Если еще потребуется моя помощь, отправьте команду: /evkusa</i>",
+        text="✨ Презентация готова!\n\n<i>Если еще потребуется моя помощь, отправьте команду: /pp</i>",
         parse_mode="HTML",
     )
 
@@ -188,29 +188,14 @@ async def maybe_run_generation(update: Update, context: ContextTypes.DEFAULT_TYP
 
 
 def main():
-    # Проверка токена перед запуском
-    if not BOT_TOKEN or BOT_TOKEN == "ВАШ_TELEGRAM_BOT_TOKEN":
-        print("ОШИБКА: BOT_TOKEN не установлен!")
-        print("Установите переменную окружения BOT_TOKEN в настройках Coolify")
-        import sys
-        sys.exit(1)
-    
-    try:
-        app = ApplicationBuilder().token(BOT_TOKEN).build()
+    app = ApplicationBuilder().token(BOT_TOKEN).build()
 
-        app.add_handler(CommandHandler("start", cmd_start))
-        app.add_handler(CommandHandler("evkusa", cmd_evkusa))
-        app.add_handler(MessageHandler(filters.Document.ALL, handle_document))
-        app.add_handler(MessageHandler(filters.PHOTO, handle_photo))
+    app.add_handler(CommandHandler("start", cmd_start))
+    app.add_handler(CommandHandler("pp", cmd_evkusa))
+    app.add_handler(MessageHandler(filters.Document.ALL, handle_document))
+    app.add_handler(MessageHandler(filters.PHOTO, handle_photo))
 
-        print("Бот запускается...")
-        app.run_polling()
-    except Exception as e:
-        print(f"КРИТИЧЕСКАЯ ОШИБКА при запуске бота: {e}")
-        import traceback
-        traceback.print_exc()
-        import sys
-        sys.exit(1)
+    app.run_polling()
 
 
 if __name__ == "__main__":
