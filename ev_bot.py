@@ -188,14 +188,29 @@ async def maybe_run_generation(update: Update, context: ContextTypes.DEFAULT_TYP
 
 
 def main():
-    app = ApplicationBuilder().token(BOT_TOKEN).build()
+    # Проверка токена перед запуском
+    if not BOT_TOKEN or BOT_TOKEN == "ВАШ_TELEGRAM_BOT_TOKEN":
+        print("ОШИБКА: BOT_TOKEN не установлен!")
+        print("Установите переменную окружения BOT_TOKEN в настройках Coolify")
+        import sys
+        sys.exit(1)
+    
+    try:
+        app = ApplicationBuilder().token(BOT_TOKEN).build()
 
-    app.add_handler(CommandHandler("start", cmd_start))
-    app.add_handler(CommandHandler("evkusa", cmd_evkusa))
-    app.add_handler(MessageHandler(filters.Document.ALL, handle_document))
-    app.add_handler(MessageHandler(filters.PHOTO, handle_photo))
+        app.add_handler(CommandHandler("start", cmd_start))
+        app.add_handler(CommandHandler("evkusa", cmd_evkusa))
+        app.add_handler(MessageHandler(filters.Document.ALL, handle_document))
+        app.add_handler(MessageHandler(filters.PHOTO, handle_photo))
 
-    app.run_polling()
+        print("Бот запускается...")
+        app.run_polling()
+    except Exception as e:
+        print(f"КРИТИЧЕСКАЯ ОШИБКА при запуске бота: {e}")
+        import traceback
+        traceback.print_exc()
+        import sys
+        sys.exit(1)
 
 
 if __name__ == "__main__":
