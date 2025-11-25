@@ -4,6 +4,7 @@ import shutil  # ← добавили
 from openpyxl import load_workbook
 from telegram import Update
 from telegram.ext import ApplicationBuilder, CommandHandler, MessageHandler, ContextTypes, filters
+from telegram.request import HTTPXRequest
 
 from config import BOT_TOKEN, BASE_DIR
 from ev_pptx import build_presentation
@@ -188,7 +189,15 @@ async def maybe_run_generation(update: Update, context: ContextTypes.DEFAULT_TYP
 
 
 def main():
-    app = ApplicationBuilder().token(BOT_TOKEN).build()
+    request = HTTPXRequest(
+        read_timeout=20,
+        connect_timeout=10,
+        pool_timeout=10,
+        timeout=30,
+        retries=3,
+    )
+
+    app = ApplicationBuilder().token(BOT_TOKEN).request(request).build()
 
     app.add_handler(CommandHandler("start", cmd_start))
     app.add_handler(CommandHandler("pp", cmd_evkusa))
